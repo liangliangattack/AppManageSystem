@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liang.mapper.AppInfoMapper">
+
+<!--    AppInfo信息-->
+<!--    base-->
+    <resultMap id="appInfoBase" type="com.liang.pojo.AppInfo">
+        <id property="id" column="appId"></id>
+        <result property="softwareName" column="software_name"/>
+        <result property="apkName" column="APK_name"/>
+        <result property="softwareSize" column="software_size"/>
+        <result property="flatformId" column="flatform_id"/>
+        <result property="status" column="status"/>
+        <result property="downloads" column="downloads"/>
+    </resultMap>
+    <resultMap id="appInfoWithThreeCategoryAndVersion" extends="appInfoBase" type="com.liang.pojo.AppInfo">
+<!--        AppVersion的封装-->
+        <association property="latestVersion" javaType="com.liang.pojo.AppVersion">
+            <id property="id" column="version_id"></id>
+            <result property="versionNo" column="version_no"/>
+        </association>
+<!--        level等级的封装-->
+        <association property="categoryLevel1" javaType="com.liang.pojo.AppCategory">
+            <result property="categoryName" column="categoryLevel1Name"/>
+        </association>
+        <association property="categoryLevel2" javaType="com.liang.pojo.AppCategory">
+            <result property="categoryName" column="categoryLevel2Name"/>
+        </association>
+        <association property="categoryLevel3" javaType="com.liang.pojo.AppCategory">
+            <result property="categoryName" column="categoryLevel3Name"/>
+        </association>
+    </resultMap>
+    <select id="queryByDevUserId" resultMap="appInfoWithThreeCategoryAndVersion">
+        select ai.id appId, ai.software_name , ai.APK_name , ai.software_size ,ai.flatform_id
+        , ai.`status` , ai.downloads , ai.version_id
+        , ac1.category_name as categoryLevel1Name
+        , ac2.category_name as categoryLevel2Name
+        , ac3.category_name as categoryLevel3Name
+        , av.version_no
+        from app_info ai
+        LEFT JOIN app_category ac1 ON ac1.id = ai.category_level1
+        LEFT JOIN app_category ac2 ON ac2.id = ai.category_level2
+        LEFT JOIN app_category ac3 ON ac3.id = ai.category_level3
+        LEFT JOIN app_version av ON av.id = ai.version_id
+        , dev_user du
+        WHERE ai.dev_id = du.id
+        AND du.id = #{devUserId}
+    </select>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
