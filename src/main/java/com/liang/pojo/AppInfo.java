@@ -25,11 +25,15 @@ public class AppInfo {
 
     private Long status;
 
+    private DataDictionary appStatus;
+
     private Date onSaleDate;
 
     private Date offSaleDate;
 
     private Long flatformId;
+
+    private DataDictionary flatForm;
 
 //    private Long categoryLevel3;
 
@@ -61,6 +65,22 @@ public class AppInfo {
     private AppVersion latestVersion;
 
     private DevUser devUser;
+
+    public DataDictionary getAppStatus() {
+        return appStatus;
+    }
+
+    public void setAppStatus(DataDictionary appStatus) {
+        this.appStatus = appStatus;
+    }
+
+    public DataDictionary getFlatForm() {
+        return flatForm;
+    }
+
+    public void setFlatForm(DataDictionary flatForm) {
+        this.flatForm = flatForm;
+    }
 
     public Long getId() {
         return id;

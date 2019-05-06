@@ -13,6 +13,8 @@
         <result property="status" column="status"/>
         <result property="downloads" column="downloads"/>
     </resultMap>
+
+
     <resultMap id="appInfoWithThreeCategoryAndVersion" extends="appInfoBase" type="com.liang.pojo.AppInfo">
 <!--        AppVersion的封装-->
         <association property="latestVersion" javaType="com.liang.pojo.AppVersion">
@@ -47,14 +49,73 @@
         AND du.id = #{devUserId}
     </select>
 
+<!--    query  ato-->
+    <resultMap id="query" extends="appInfoBase" type="com.liang.pojo.AppInfo">
+        <!--        AppVersion的封装-->
+        <association property="latestVersion" javaType="com.liang.pojo.AppVersion">
+            <result property="versionNo" column="versionNum"/>
+        </association>
+        <!--        level等级的封装-->
+        <association property="categoryLevel1" javaType="com.liang.pojo.AppCategory">
+            <result property="categoryName" column="levelOneName"/>
+        </association>
+        <association property="categoryLevel2" javaType="com.liang.pojo.AppCategory">
+            <result property="categoryName" column="levelTwoName"/>
+        </association>
+        <association property="categoryLevel3" javaType="com.liang.pojo.AppCategory">
+            <result property="categoryName" column="levelThreeName"/>
+        </association>
+<!--        平台名字-->
+        <association property="flatForm" javaType="com.liang.pojo.DataDictionary">
+            <result property="valueName" column="flatFormName"/>
+        </association>
+<!--        app状态-->
+        <association property="appStatus" javaType="com.liang.pojo.DataDictionary">
+            <result property="valueName" column="appStatusName" />
+        </association>
+    </resultMap>
+<!--    根据dto查询-->
+    <select id="query" resultMap="query">
+        SELECT software_name,APK_name , software_size ,
+        dd1.value_name AS flatFormName,
+        ac1.category_name AS levelOneName ,
+        ac2.category_name AS levelTwoName ,
+        ac3.category_name AS levelThreeName ,
+        dd2.value_name appStatusName,
+        app_info.downloads ,
+        app_version.version_no AS versionNum
+        FROM app_info , data_dictionary dd1 , data_dictionary dd2 ,  app_category ac1 ,
+         app_category ac2, app_category ac3 , app_version
+        <where>
+            <if test="softwareName != null and softwareName != ''">
+                AND app_info.software_name like "%"#{softwareName}"%"
+            </if>
+            <if test="appFlatform != null and appFlatform != 0">
+                AND app_info.flatform_id = #{appFlatform}
+            </if>
+            <if test="appStatus != null and appStatus != 0">
+                AND app_info.`status` = #{appStatus}
+            </if>
+            <if test="appCategoriesLevelOne != null and appCategoriesLevelOne != 0">
+                AND app_info.category_level1 = #{appCategoriesLevelOne}
+            </if>
+            <if test="appCategoriesLevelTwo != null and appCategoriesLevelTwo != 0">
+                AND app_info.category_level2 = #{appCategoriesLevelTwo}
+            </if>
+            <if test="appCategoriesLevelThree!= null and appCategoriesLevelThree != 0">
+                AND app_info.category_level3 = #{appCategoriesLevelThree}
+            </if>
+            AND app_info.flatform_id = dd1.value_id
+            AND dd1.type_code = 'APP_FLATFORM'
+            AND app_info.`status`= dd2.value_id
+            AND dd2.type_code = 'APP_STATUS'
+            AND app_info.category_level1 = ac1.id
+            AND app_info.category_level2 = ac2.id
+            AND app_info.category_level3 = ac3.id
+            AND app_info.version_id =  app_version.id
+        </where>
 
-
-
-
-
-
-
-
+    </select>
 
 
 

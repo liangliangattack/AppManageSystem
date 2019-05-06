@@ -3,7 +3,7 @@
 <mapper namespace="com.liang.mapper.DataDictionaryMapper">
 
     <!--    App的发布状态查询-->
-    <select id="queryAllAppPublishStatus" resultType="com.liang.pojo.DataDictionary">
+    <select id="queryAllAppStatus" resultType="com.liang.pojo.DataDictionary">
         SELECT id , type_code , value_id , value_name
         from data_dictionary
         WHERE type_code = 'APP_STATUS'

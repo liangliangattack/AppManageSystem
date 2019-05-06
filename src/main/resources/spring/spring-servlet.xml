@@ -66,8 +66,8 @@
         <mvc:interceptor>
             <!--这里配置的是需要拦截的路径  管你啊猫啊狗 都给你拦下来-->
             <mvc:mapping path="/**/*"/>
+            <mvc:exclude-mapping path="/dev/*"/><!--设置不拦截登陆注册等等-->
             <bean class="com.liang.interceptor.MethodTimeInterceptor">
-
             </bean>
         </mvc:interceptor>
     </mvc:interceptors>

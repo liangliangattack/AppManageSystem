@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface DataDictionaryMapper {
 
-    List<DataDictionary> queryAllAppPublishStatus();
+    List<DataDictionary> queryAllAppStatus();
 
     List<DataDictionary> queryAllAppFlatform();
 }

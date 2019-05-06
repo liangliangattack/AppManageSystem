@@ -8,16 +8,10 @@
         WHERE parent_id IS NULL ;
     </select>
 
-    <select id="queryAllAppCategoriesLevelTwo" resultType="com.liang.pojo.AppCategory">
+    <select id="queryLevelByParentId" resultType="com.liang.pojo.AppCategory">
         SELECT id,category_code,category_name,parent_id
         from app_category
-        WHERE parent_id = 1;
-    </select>
-
-    <select id="queryAllAppCategoriesLevelThree" resultType="com.liang.pojo.AppCategory">
-        SELECT id,category_code,category_name,parent_id
-        from app_category
-        WHERE parent_id = 2 ;
+        WHERE parent_id = #{parentId};
     </select>
 
 </mapper>

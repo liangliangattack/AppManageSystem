@@ -43,8 +43,4 @@ public class DevUserController {
         return "redirect:/";
     }
 
-    @RequestMapping("/background")
-    public String background(){
-        return "dev/background";
-    }
 }

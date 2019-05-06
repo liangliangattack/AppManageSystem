@@ -2,6 +2,8 @@ package com.liang.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.liang.constant.CommonCodeConstant;
+import com.liang.dto.AppInfoDto;
 import com.liang.mapper.AppCategoryMapper;
 import com.liang.mapper.AppInfoMapper;
 import com.liang.mapper.DataDictionaryMapper;
@@ -37,9 +39,9 @@ public class AppInfoServiceImpl implements AppInfoService {
     }
 
     @Override
-    public List<DataDictionary> queryAllAppPublishStatus() {
+    public List<DataDictionary> queryAllAppStatus() {
 
-        return dataDictionaryMapper.queryAllAppPublishStatus();
+        return dataDictionaryMapper.queryAllAppStatus();
     }
 
     @Override
@@ -56,13 +58,12 @@ public class AppInfoServiceImpl implements AppInfoService {
     }
 
     @Override
-    public List<AppCategory> queryAllAppCategoriesLevelTwo() {
-        return appCategoryMapper.queryAllAppCategoriesLevelTwo();
-    }
+    public PageInfo<AppInfoDto> query(AppInfoDto appInfoDto) {
+        PageHelper.startPage(appInfoDto.getPageNum() , CommonCodeConstant.PAGE_SIZE);
 
-    @Override
-    public List<AppCategory> queryAllAppCategoriesLevelThree() {
+        List<AppInfoDto> appInfoDtos = appInfoMapper.query(appInfoDto);
+        PageInfo<AppInfoDto> pageInfo = new PageInfo<>(appInfoDtos);
 
-        return appCategoryMapper.queryAllAppCategoriesLevelThree();
+        return pageInfo;
     }
 }
