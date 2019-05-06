@@ -10,3 +10,13 @@
 .my_form_item {padding-right: 70px;padding-bottom: 20px;}
 
 .my_title {margin-bottom: 20px;}
+
+/*.right {float: right;width: 80px;}*/
+/*.left {float: left;width: 80px;}*/
+.after:after{content: ".";/*使用after伪对象清除浮动*/
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+.myBtn {width: 1000px;height: 30px;}

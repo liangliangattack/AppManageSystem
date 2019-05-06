@@ -10,10 +10,12 @@ import com.liang.mapper.DataDictionaryMapper;
 import com.liang.pojo.AppCategory;
 import com.liang.pojo.AppInfo;
 import com.liang.pojo.DataDictionary;
+import com.liang.pojo.DevUser;
 import com.liang.service.AppInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("appInfoService")
@@ -65,5 +67,22 @@ public class AppInfoServiceImpl implements AppInfoService {
         PageInfo<AppInfoDto> pageInfo = new PageInfo<>(appInfoDtos);
 
         return pageInfo;
+    }
+
+    @Override
+    public boolean addApp(AppInfo appInfo, long userId) {
+        boolean isAdd = true;
+        //先处理一些信息
+        appInfo.setCreationDate(new Date());//设置创建时间
+        //用户初始化
+        DevUser devUser = new DevUser();
+        devUser.setId(userId);
+        appInfo.setDevUser(devUser);
+        appInfo.setDevUser(devUser);
+        //创建者
+        appInfo.setCreatedBy(devUser.getId());
+        appInfoMapper.addApp(appInfo);
+
+        return false;
     }
 }

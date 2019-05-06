@@ -11,7 +11,7 @@
 
     <!--    App的平台查询-->
     <select id="queryAllAppFlatform" resultType="com.liang.pojo.DataDictionary">
-        SELECT id , type_code , value_name
+        SELECT id , type_code ,value_id, value_name
         from data_dictionary
         WHERE type_code = 'APP_FLATFORM';
     </select>

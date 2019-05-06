@@ -18,4 +18,6 @@ public interface AppInfoService {
     List<AppCategory> queryAllAppCategoriesLevelOne();
 
     PageInfo<AppInfoDto> query(AppInfoDto appInfoDto);
+
+    boolean addApp(AppInfo appInfo, long userId);
 }

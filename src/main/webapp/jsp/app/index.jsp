@@ -36,7 +36,7 @@
                     <div class="layui-inline my_form_item">
                         <label class="layui-form-label">App平台</label>
                         <div class="layui-input-inline">
-                            <select name="appFlatform" lay-filter="appFlatform">
+                            <select id="appFlatform" name="appFlatform" lay-filter="appFlatform" lay-verify="required" lay-search="">
                                 <option value="">--请选择--</option>
                                 <c:forEach items="${appFlatform}" var="obj">
                                     <option value="${obj.valueId}" <c:if test="${appInfoDto.appFlatform eq obj.valueId}">
@@ -49,7 +49,7 @@
                     <div class="layui-inline my_form_item">
                         <label class="layui-form-label">App状态</label>
                         <div class="layui-input-inline">
-                            <select id="appStatus" name="appStatus" lay-filter="appStatus">
+                            <select id="appStatus" name="appStatus" lay-filter="appStatus" lay-verify="required" lay-search="">
                                 <option value="">--请选择--</option>
                                 <c:forEach items="${appStatus}" var="obj">
                                     <option value="${obj.valueId}" <c:if test="${appInfoDto.appStatus eq obj.valueId}">
@@ -96,12 +96,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="layui-form-item">
+                <div class="layui-form-item after">
                     <div class="layui-input-block">
                         <button class="layui-btn" lay-filter="submit">立即提交</button>
-                    </div><br>
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-filter="addApp">新增App</button>
+                        <a href="${ctx}/app/toAddApp.do" class="layui-btn">新增App</a>
                     </div>
                 </div>
             </form>
@@ -131,7 +129,19 @@
                             <th style="text-align: center;">${obj.appStatus.valueName}</th>
                             <th style="text-align: center;">${obj.downloads}</th>
                             <th style="text-align: center;">${obj.latestVersion.versionNo}</th>
-                            <th style="text-align: center;"><button value="操作"/></th>
+                            <th style="text-align: center;">
+                                <div class="layui-btn-group">
+                                    <button class="layui-btn layui-btn-sm">
+                                        <i class="layui-icon">&#xe642;</i>
+                                    </button>
+                                    <button class="layui-btn layui-btn-sm">
+                                        <i class="layui-icon">&#xe640;</i>
+                                    </button>
+                                    <button class="layui-btn layui-btn-sm">
+                                        <i class="layui-icon">&#xe602;</i>
+                                    </button>
+                                </div>
+                            </th>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -153,7 +163,6 @@
 
             </table>
         </div>
-        ${appInfoDto.appStatus}
     </div>
     <jsp:include page="../common/footer.jsp"/>
 </div>
@@ -172,7 +181,7 @@
             //选择一级分类之后 请求二级分类的数据
             //拿到id值
             var levelOneId = $('#appCategoriesLevelOne').val();
-            // console.log("一级ID："+levelOneId);
+            console.log("一级ID："+levelOneId);
 
             //需要在选择的是空的时候  删除二级分类的数据
             if(levelOneId == null || levelOneId == ''){

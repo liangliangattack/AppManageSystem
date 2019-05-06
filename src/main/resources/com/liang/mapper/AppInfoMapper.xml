@@ -84,8 +84,13 @@
         dd2.value_name appStatusName,
         app_info.downloads ,
         app_version.version_no AS versionNum
-        FROM app_info , data_dictionary dd1 , data_dictionary dd2 ,  app_category ac1 ,
-         app_category ac2, app_category ac3 , app_version
+        FROM app_info
+        LEFT JOIN data_dictionary dd1 ON app_info.flatform_id = dd1.value_id
+        LEFT JOIN data_dictionary dd2 ON app_info.`status`= dd2.value_id
+        LEFT JOIN app_category ac1 ON app_info.category_level1 = ac1.id
+        LEFT JOIN app_category ac2 ON app_info.category_level2 = ac2.id
+        LEFT JOIN app_category ac3 ON app_info.category_level3 = ac3.id
+        LEFT JOIN app_version ON app_info.version_id =  app_version.id
         <where>
             <if test="softwareName != null and softwareName != ''">
                 AND app_info.software_name like "%"#{softwareName}"%"
@@ -105,18 +110,159 @@
             <if test="appCategoriesLevelThree!= null and appCategoriesLevelThree != 0">
                 AND app_info.category_level3 = #{appCategoriesLevelThree}
             </if>
-            AND app_info.flatform_id = dd1.value_id
             AND dd1.type_code = 'APP_FLATFORM'
-            AND app_info.`status`= dd2.value_id
             AND dd2.type_code = 'APP_STATUS'
-            AND app_info.category_level1 = ac1.id
-            AND app_info.category_level2 = ac2.id
-            AND app_info.category_level3 = ac3.id
-            AND app_info.version_id =  app_version.id
         </where>
 
     </select>
 
+<!--    添加App信息-->
+    <insert id="addApp">
+        INSERT into app_info
+        <trim prefix="(" suffix=")" prefixOverrides=",">
+            <if test="softwareName != null and softwareName != ''">
+                , software_name
+            </if>
+            <if test="apkName != null and apkName != ''">
+                , APK_name
+            </if>
+            <if test="supportRom != null and supportRom != ''">
+                , support_rom
+            </if>
+            <if test="interfaceLanguage != null and interfaceLanguage != ''">
+                , interface_language
+            </if>
+            <if test="softwareSize != null">
+                , software_size
+            </if>
+            <if test="updateDate != null">
+                , update_date
+            </if>
+            <if test="devUser.id != null">
+                , dev_id
+            </if>
+            <if test="appInfo != null and appInfo != ''">
+                , app_info
+            </if>
+            <if test="appStatus != null and appStatus.valueId != null">
+                , status
+            </if>
+            <if test="onSaleDate != null">
+                , on_sale_date
+            </if>
+            <if test="offSaleDate != null">
+                , off_sale_date
+            </if>
+            <if test="flatForm != null and flatForm.valueId != null">
+                , flatForm_id
+            </if>
+            <if test="categoryLevel3 != null and categoryLevel3.id != null">
+                , category_level3
+            </if>
+            <if test="downloads != null">
+                , downloads
+            </if>
+            <if test="createdBy != null">
+                , created_by
+            </if>
+            <if test="creationDate != null">
+                , creation_date
+            </if>
+            <if test="modifyBy != null">
+                , modify_by
+            </if>
+            <if test="modifyDate != null">
+                , modify_date
+            </if>
+            <if test="categoryLevel1 != null and categoryLevel1.id != null">
+                , category_level1
+            </if>
+            <if test="categoryLevel2 != null and categoryLevel2.id != null">
+                , category_level2
+            </if>
+            <if test="logoPicPath != null and logoPicPath != ''">
+                , logo_pic_path
+            </if>
+            <if test="logoLocPath != null and logoLocPath != ''">
+                , logo_loc_path
+            </if>
+            <if test="latestVersion != null and latestVersion.id != null">
+                , version_id
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" prefixOverrides=",">
+            <if test="softwareName != null and softwareName != ''">
+                , #{softwareName}
+            </if>
+            <if test="apkName != null and apkName != ''">
+                , #{apkName}
+            </if>
+            <if test="supportRom != null and supportRom != ''">
+                , #{supportRom}
+            </if>
+            <if test="interfaceLanguage != null and interfaceLanguage != ''">
+                , #{interfaceLanguage}
+            </if>
+            <if test="softwareSize != null">
+                , #{softwareSize}
+            </if>
+            <if test="updateDate != null">
+                , #{updateDate}
+            </if>
+            <if test="devUser.id != null">
+                , #{devUser.id}
+            </if>
+            <if test="appInfo != null and appInfo != ''">
+                , #{appInfo}
+            </if>
+            <if test="appStatus != null and appStatus.valueId != null">
+                , #{appStatus.valueId}
+            </if>
+            <if test="onSaleDate != null">
+                , onSaleDate}
+            </if>
+            <if test="offSaleDate != null">
+                , #{offSaleDate}
+            </if>
+            <if test="flatForm != null and flatForm.valueId != null">
+                , #{flatForm.valueId}
+            </if>
+            <if test="categoryLevel3 != null and categoryLevel3.id != null">
+                , #{categoryLevel3.id}
+            </if>
+            <if test="downloads != null">
+                , #{downloads}
+            </if>
+            <if test="createdBy != null">
+                , #{createdBy}
+            </if>
+            <if test="creationDate != null">
+                , #{creationDate}
+            </if>
+            <if test="modifyBy != null">
+                , #{modifyBy}
+            </if>
+            <if test="modifyDate != null">
+                , #{modifyDate}
+            </if>
+            <if test="categoryLevel1 != null and categoryLevel1.id != null">
+                , #{categoryLevel1.id}
+            </if>
+            <if test="categoryLevel2 != null and categoryLevel2.id != null">
+                , #{categoryLevel2.id}
+            </if>
+            <if test="logoPicPath != null and logoPicPath != ''">
+                , #{logoPicPath}
+            </if>
+            <if test="logoLocPath != null and logoLocPath != ''">
+                , #{logoLocPath}
+            </if>
+            <if test="latestVersion != null and latestVersion.id != null">
+                , #{latestVersion}
+            </if>
+
+        </trim>
+    </insert>
 
 
 </mapper>

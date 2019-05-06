@@ -7,33 +7,29 @@ import java.util.List;
 public class AppInfo {
     private Long id;
 
-    private String softwareName;
+    private String softwareName;//
 
-    private String apkName;
+    private String apkName;//
 
-    private String supportRom;
+    private String supportRom;//
 
-    private String interfaceLanguage;
+    private String interfaceLanguage;//
 
-    private BigDecimal softwareSize;
+    private BigDecimal softwareSize;//
 
     private Date updateDate;
 
-    private Long devId;
-
-    private String appInfo;
+    private String appInfo;//
 
     private Long status;
-
-    private DataDictionary appStatus;
+    private DataDictionary appStatus;//
 
     private Date onSaleDate;
 
     private Date offSaleDate;
 
     private Long flatformId;
-
-    private DataDictionary flatForm;
+    private DataDictionary flatForm;//
 
 //    private Long categoryLevel3;
 
@@ -54,17 +50,42 @@ public class AppInfo {
 
     private String logoLocPath;
 
-    private Long versionId;
+//    private Long versionId;
 
-    private AppCategory categoryLevel1;
-    private AppCategory categoryLevel2;
-    private AppCategory categoryLevel3;
+    private AppCategory categoryLevel1;//
+    private AppCategory categoryLevel2;//
+    private AppCategory categoryLevel3;//
 
     private List<AppVersion> appVersions;
 
     private AppVersion latestVersion;
 
+    private Long devId;
     private DevUser devUser;
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    public Long getFlatformId() {
+        return flatformId;
+    }
+
+    public void setFlatformId(Long flatformId) {
+        this.flatformId = flatformId;
+    }
+
+    public Long getDevId() {
+        return devId;
+    }
+
+    public void setDevId(Long devId) {
+        this.devId = devId;
+    }
 
     public DataDictionary getAppStatus() {
         return appStatus;
@@ -138,28 +159,12 @@ public class AppInfo {
         this.updateDate = updateDate;
     }
 
-    public Long getDevId() {
-        return devId;
-    }
-
-    public void setDevId(Long devId) {
-        this.devId = devId;
-    }
-
     public String getAppInfo() {
         return appInfo;
     }
 
     public void setAppInfo(String appInfo) {
         this.appInfo = appInfo == null ? null : appInfo.trim();
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
     }
 
     public Date getOnSaleDate() {
@@ -176,14 +181,6 @@ public class AppInfo {
 
     public void setOffSaleDate(Date offSaleDate) {
         this.offSaleDate = offSaleDate;
-    }
-
-    public Long getFlatformId() {
-        return flatformId;
-    }
-
-    public void setFlatformId(Long flatformId) {
-        this.flatformId = flatformId;
     }
 
     public Long getDownloads() {
@@ -242,14 +239,6 @@ public class AppInfo {
         this.logoLocPath = logoLocPath == null ? null : logoLocPath.trim();
     }
 
-    public Long getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(Long versionId) {
-        this.versionId = versionId;
-    }
-
     public List<AppVersion> getAppVersions() {
         return appVersions;
     }
@@ -296,5 +285,29 @@ public class AppInfo {
 
     public void setLatestVersion(AppVersion latestVersion) {
         this.latestVersion = latestVersion;
+    }
+
+    @Override
+    public String toString() {
+        return "AppInfo{" +
+                "id=" + id +
+                ", softwareName='" + softwareName + '\'' +
+                ", apkName='" + apkName + '\'' +
+                ", supportRom='" + supportRom + '\'' +
+                ", interfaceLanguage='" + interfaceLanguage + '\'' +
+                ", softwareSize=" + softwareSize +
+                ", updateDate=" + updateDate +
+                ", appInfo='" + appInfo + '\'' +
+                ", appStatus=" + appStatus +
+                ", onSaleDate=" + onSaleDate +
+                ", offSaleDate=" + offSaleDate +
+                ", flatForm=" + flatForm +
+                ", categoryLevel1=" + categoryLevel1 +
+                ", categoryLevel2=" + categoryLevel2 +
+                ", categoryLevel3=" + categoryLevel3 +
+                ", appVersions=" + appVersions +
+                ", latestVersion=" + latestVersion +
+                ", devUser=" + devUser +
+                '}';
     }
 }
