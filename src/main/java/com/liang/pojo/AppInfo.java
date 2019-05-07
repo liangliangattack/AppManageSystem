@@ -36,10 +36,12 @@ public class AppInfo {
     private Long downloads;
 
     private Long createdBy;
+    private DevUser createdByUser;//创建者
 
     private Date creationDate;
 
     private Long modifyBy;
+    private DevUser modifyByUser;//修改者
 
     private Date modifyDate;
 
@@ -62,6 +64,22 @@ public class AppInfo {
 
     private Long devId;
     private DevUser devUser;
+
+    public DevUser getCreatedByUser() {
+        return createdByUser;
+    }
+
+    public void setCreatedByUser(DevUser createdByUser) {
+        this.createdByUser = createdByUser;
+    }
+
+    public DevUser getModifyByUser() {
+        return modifyByUser;
+    }
+
+    public void setModifyByUser(DevUser modifyByUser) {
+        this.modifyByUser = modifyByUser;
+    }
 
     public Long getStatus() {
         return status;

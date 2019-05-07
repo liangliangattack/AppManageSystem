@@ -1,6 +1,15 @@
 package com.liang.dto;
 
 public class AppInfoDto {
+    private Integer id;//主键  删除修改查询....需要用到
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     private String softwareName;
     private Long appStatus;

@@ -20,147 +20,108 @@
         <!-- 内容主体区域 -->
         <div style="padding: 15px;">
             <!--查询表单填写-->
-            <form class="layui-form layui-form-pane my_index_form" action="${ctx}/app/query.do">
-                <h2 class="layui-colla-title my_title">App信息管理维护</h2>
-                <div class="layui-form-item">
-                    <div class="layui-inline my_form_item">
+            <form class="layui-form layui-form-pane my_index_form">
+            <h2 class="layui-colla-title my_title">App信息管理维护</h2>
+            <div class="layui-form-item">
+                <div class="layui-inline my_form_item">
 <%--                        //隐藏域--%>
-                        <input type="hidden" name="pageNum" value="1">
+                    <input type="hidden" name="pageNum" value="1">
 
-                        <label class="layui-form-label">软件名称</label>
-                        <div class="layui-input-inline">
-                            <input type="tel" name="softwareName" lay-verify="required|phone" autocomplete="off" class="layui-input">
-                        </div>
+                    <label class="layui-form-label">软件名称</label>
+                    <div class="layui-input-inline">
+                        <input type="tel" name="softwareName" lay-verify="required|phone" autocomplete="off" class="layui-input" value="${appInfo.softwareName}">
                     </div>
+                </div>
 
-                    <div class="layui-inline my_form_item">
-                        <label class="layui-form-label">App平台</label>
-                        <div class="layui-input-inline">
-                            <select id="appFlatform" name="appFlatform" lay-filter="appFlatform" lay-verify="required" lay-search="">
-                                <option value="">--请选择--</option>
-                                <c:forEach items="${appFlatform}" var="obj">
-                                    <option value="${obj.valueId}" <c:if test="${appInfoDto.appFlatform eq obj.valueId}">
-                                        selected
-                                    </c:if>>${obj.valueName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                <div class="layui-inline my_form_item">
+                    <label class="layui-form-label">App平台</label>
+                    <div class="layui-input-inline">
+                        <select id="appFlatform" name="appFlatform" lay-filter="appFlatform" lay-verify="required" lay-search="">
+                            <option value="">--请选择--</option>
+                            <c:forEach items="${appFlatform}" var="obj">
+                                <option value="${obj.valueId}" <c:if test="${appInfo.flatForm.valueId eq obj.valueId}">
+                                    selected
+                                </c:if>>${obj.valueName}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                    <div class="layui-inline my_form_item">
-                        <label class="layui-form-label">App状态</label>
-                        <div class="layui-input-inline">
-                            <select id="appStatus" name="appStatus" lay-filter="appStatus" lay-verify="required" lay-search="">
-                                <option value="">--请选择--</option>
-                                <c:forEach items="${appStatus}" var="obj">
-                                    <option value="${obj.valueId}" <c:if test="${appInfoDto.appStatus eq obj.valueId}">
-                                        selected
-                                    </c:if>>${obj.valueName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                </div>
+                <div class="layui-inline my_form_item">
+                    <label class="layui-form-label">App状态</label>
+                    <div class="layui-input-inline">
+                        <select id="appStatus" name="appStatus" lay-filter="appStatus" lay-verify="required" lay-search="">
+                            <option value="">--请选择--</option>
+                            <c:forEach items="${appStatus}" var="obj">
+                                <option value="${obj.valueId}" <c:if test="${appInfo.appStatus.valueId eq obj.valueId}">
+                                    selected
+                                </c:if>>${obj.valueName}</option>
+                            </c:forEach>
+                        </select>
                     </div>
+                </div>
 
-                    <div class="layui-inline my_form_item">
-                        <label class="layui-form-label">一级分类</label>
-                        <div class="layui-input-inline">
-                            <select id="appCategoriesLevelOne" name="appCategoriesLevelOne" lay-filter="appCategoriesLevelOne" lay-verify="required" lay-search="">
-                                <option value="">--请选择--</option>
-                                <c:forEach items="${appCategoriesLevelOne}" var="obj">
-                                    <option value="${obj.id}" <c:if test="${appInfoDto.appCategoriesLevelOne eq obj.id}">
-                                        selected
-                                    </c:if>>${obj.categoryName}</option>
-                                </c:forEach>
-                            </select>
-                        </div>
+                <div class="layui-inline my_form_item">
+                    <label class="layui-form-label">一级分类</label>
+                    <div class="layui-input-inline">
+                        <select id="appCategoriesLevelOne" name="appCategoriesLevelOne" lay-filter="appCategoriesLevelOne" lay-verify="required" lay-search="">
+                            <option value="">--请选择--</option>
+                            <c:forEach items="${appCategoriesLevelOne}" var="obj">
+                                <option value="${obj.id}" <c:if test="${appInfo.categoryLevel1.id eq obj.id}">
+                                    selected
+                                </c:if>>${obj.categoryName}</option>
+                            </c:forEach>
+                        </select>
                     </div>
-                    <div class="layui-inline my_form_item">
-                        <label class="layui-form-label">二级分类</label>
-                        <div class="layui-input-inline">
-                            <select id="appCategoriesLevelTwo" name="appCategoriesLevelTwo" lay-filter="appCategoriesLevelTwo" lay-verify="required" lay-search="">
+                </div>
+                <div class="layui-inline my_form_item">
+                    <label class="layui-form-label">二级分类</label>
+                    <div class="layui-input-inline">
+                        <select id="appCategoriesLevelTwo" name="appCategoriesLevelTwo" lay-filter="appCategoriesLevelTwo" lay-verify="required" lay-search="">
 <%--                                <option value="0">${appCategoriesLevelTwo.get(0).categoryName}</option>--%>
 <%--                                <c:forEach items="${appCategoriesLevelTwo}" var="obj">--%>
 <%--                                    <option value="${obj.id}">${obj.categoryName}</option>--%>
 <%--                                </c:forEach>--%>
-                            </select>
-                        </div>
+                        </select>
                     </div>
-                    <div class="layui-inline my_form_item">
-                        <label class="layui-form-label">三级分类</label>
-                        <div class="layui-input-inline">
-                            <select id="appCategoriesLevelThree" name="appCategoriesLevelThree" lay-filter="appCategoriesLevelThree" lay-verify="required" lay-search="">
+                </div>
+                <div class="layui-inline my_form_item">
+                    <label class="layui-form-label">三级分类</label>
+                    <div class="layui-input-inline">
+                        <select id="appCategoriesLevelThree" name="appCategoriesLevelThree" lay-filter="appCategoriesLevelThree" lay-verify="required" lay-search="">
 <%--                                <option value="0">${appCa tegoriesLevelThree.get(0).categoryName}</option>--%>
 <%--                                <c:forEach items="${appCategoriesLevelThree}" var="obj">--%>
 <%--                                    <option value="${obj.id}">${obj.categoryName}</option>--%>
 <%--                                </c:forEach>--%>
-                            </select>
-                        </div>
+                        </select>
                     </div>
                 </div>
-                <div class="layui-form-item after">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-filter="submit">立即提交</button>
-                        <a href="${ctx}/app/toAddApp.do" class="layui-btn">新增App</a>
-                    </div>
-                </div>
+            </div>
             </form>
             <!--信息查询显示-->
             <table class="layui-table">
                 <thead>
                     <tr>
-                        <th>软件名称</th>
-                        <th>APK名称</th>
-                        <th>软件大小（单位：MB）</th>
-                        <th>所属平台</th>
-                        <th>所属分类（一级分类、二级分类、三级分类）</th>
+                        <th>软件版本号</th>
+                        <th>版本简介</th>
+                        <th>下载链接</th>
+                        <th>版本大小</th>
+                        <th>软件路径</th>
                         <th>状态</th>
-                        <th>下载次数</th>
-                        <th>最新版本号</th>
-                        <th>操作</th>
+                        <th>apk名称</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <c:forEach items="${pageInfo.list}" var="obj">
+                    <c:forEach items="${appInfo.appVersions}" var="obj">
                         <tr style="text-align: center;">
-                            <th style="text-align: center;">${obj.softwareName}</th>
-                            <th style="text-align: left;">${obj.apkName}</th>
-                            <th style="text-align: center;">${obj.softwareSize}</th>
-                            <th style="text-align: center;">${obj.flatForm.valueName}</th>
-                            <th style="text-align: left;">${obj.categoryLevel1.categoryName}->${obj.categoryLevel2.categoryName}->${obj.categoryLevel3.categoryName}</th>
-                            <th style="text-align: center;">${obj.appStatus.valueName}</th>
-                            <th style="text-align: center;">${obj.downloads}</th>
-                            <th style="text-align: center;">${obj.latestVersion.versionNo}</th>
-                            <th style="text-align: center;">
-                                <div class="layui-btn-group">
-                                    <button class="layui-btn layui-btn-sm">
-<%--                                        这里没有表单提交数据  从而使用rest风格  传递Id值过去--%>
-                                        <a href="${ctx}/app/toEditApp/${obj.id}.do"><i class="layui-icon">&#xe642;</i></a>
-                                    </button>
-                                    <button class="layui-btn layui-btn-sm">
-                                        <a href="${ctx}/app/deleteApp/${obj.id}.do"><i class="layui-icon">&#xe640;</i></a>
-                                    </button>
-                                    <button class="layui-btn layui-btn-sm">
-                                        <a href="${ctx}/app/detailApp/${obj.id}.do"><i class="layui-icon">&#xe602;</i></a>
-                                    </button>
-                                </div>
-                            </th>
+                            <th style="text-align: center;">${obj.versionNo}</th>
+                            <th style="text-align: left;">${obj.versionInfo}</th>
+                            <th style="text-align: center;">${obj.downloadLink}</th>
+                            <th style="text-align: center;">${obj.versionSize}</th>
+                            <th style="text-align: left;">${obj.apkLocPath}</th>
+                            <th style="text-align: center;">${obj.apkFilename}</th>
                         </tr>
                     </c:forEach>
                 </tbody>
-                <tr>
-                    <td colspan="4">
-
-                    </td>
-                    <td colspan="2">
-                        页码：
-                        ${pageInfo.pageNum}/${pageInfo.pages} 页
-                    </td>
-                    <td colspan="3">
-                        <a href="javascript:void(0);" page="first">首页</a>
-                        <a href="javascript:void(0);" page="prev">上一页</a>
-                        <a href="javascript:void(0);" page="next">下一页</a>
-                        <a href="javascript:void(0);" page="last">尾页</a>
-                    </td>
-                </tr>
 
             </table>
         </div>
@@ -257,47 +218,11 @@
             }
         });
 
-        //=======================================================================================分页事件
-        $('a[page]').click(function () {
-            var pageNum = 1;
-            var currentPage = ${pageInfo.pageNum};//获取当前的pageNum
-            var v = $(this).attr('page');
-            var totalPages = ${pageInfo.pages};
-
-            switch (v) {
-                case "first":
-                    pageNum = 1;
-                    break;
-                case "prev":
-                    pageNum = currentPage - 1 ;
-                    if(pageNum < 1)
-                        pageNum = 1 ;
-                    break;
-                case "next":
-                    //注意这里必须强转一下 不然1+1变成11了
-                    pageNum = parseInt(currentPage) + 1 ;
-                    if(pageNum > totalPages)
-                        pageNum = totalPages ;
-                    break;
-                case "last":
-                    pageNum = totalPages ;
-                    break;
-
-            }
-
-            //修改表单的里面隐藏的pageNum的数值
-            $('input[name=pageNum]').val(pageNum);
-            //然后提交表单
-            $('form').submit();
-
-
-        });
-
         //回显一二三级菜单
         $(function () {
             var appCategoriesLevelOne = $('#appCategoriesLevelOne').val();//拿到一级分类的值（一级分类已经再提交的时候保存在表单里面）
             if(appCategoriesLevelOne != null && appCategoriesLevelOne != ''){//如果有一级
-                var appCategoriesLevelTwo = '${appInfoDto.appCategoriesLevelTwo}';
+                var appCategoriesLevelTwo = '${appInfo.categoryLevel2.id}';
                 console.log("二级ID："+appCategoriesLevelTwo);
                 if(appCategoriesLevelTwo != null && appCategoriesLevelTwo != '') {//如果有二级
                     //二级回显
@@ -314,7 +239,7 @@
                                 // html += '<option value="'+data[i].id+'">'+data[i].categoryName+'</option>';
 
                                 html += '<option value="'+data[i].id+'"';
-                                if (data[i].id == '${appInfoDto.appCategoriesLevelTwo}') {
+                                if (data[i].id == '${appInfo.categoryLevel2.id}') {
                                     html += 'selected';
                                 }
                                 html += '>'+data[i].categoryName+'</option>';
@@ -330,7 +255,7 @@
                     });
 
                     //检查是否有三级分类信息
-                    var appCategoriesLevelThree = '${appInfoDto.appCategoriesLevelThree}';
+                    var appCategoriesLevelThree = '${appInfo.categoryLevel3.id}';
                     console.log("三级ID："+appCategoriesLevelThree);
                     if(appCategoriesLevelThree != null && appCategoriesLevelThree != '') {//如果有三级
                         //三级回显
@@ -344,7 +269,7 @@
                                 for (var i=0;i<data.length;i++) {
 
                                     html += '<option value="'+data[i].id+'"';
-                                    if (data[i].id == '${appInfoDto.appCategoriesLevelThree}') {
+                                    if (data[i].id == '${appInfo.categoryLevel3.id}') {
                                         html += 'selected';
                                     }
                                     html += '>'+data[i].categoryName+'</option>';

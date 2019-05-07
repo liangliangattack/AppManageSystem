@@ -76,7 +76,8 @@
     </resultMap>
 <!--    根据dto查询-->
     <select id="query" resultMap="query">
-        SELECT software_name,APK_name , software_size ,
+        SELECT app_info.id appId,
+        software_name,APK_name , software_size ,
         dd1.value_name AS flatFormName,
         ac1.category_name AS levelOneName ,
         ac2.category_name AS levelTwoName ,
@@ -263,6 +264,219 @@
 
         </trim>
     </insert>
+
+<!--    删除app-->
+    <delete id="deleteApp">
+        DELETE FROM app_info
+        WHERE id = #{appId};
+    </delete>
+
+<!--    编辑块-->
+<!--    查询需要编辑的App的信息-->
+    <resultMap id="queryAppByIdMap" extends="appInfoBase" type="com.liang.pojo.AppInfo">
+        <result property="supportRom" column="support_rom"/>
+        <result property="interfaceLanguage" column="interface_language"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="onSaleDate" column="on_sale_date"/>
+        <result property="offSaleDate" column="off_sale_date"/>
+        <result property="creationDate" column="creation_date"/>
+        <result property="modifyDate" column="modify_date"/>
+        <result property="logoPicPath" column="logo_pic_path"/>
+        <result property="logoLocPath" column="logo_loc_path"/>
+        <result property="appInfo" column="app_info"/>
+
+        <association property="flatForm" javaType="com.liang.pojo.DataDictionary">
+            <id property="id" column="flatFormId" />
+            <id property="valueId" column="flatFormValueId" />
+            <result property="valueName" column="flatFormName" />
+        </association>
+        <association property="appStatus" javaType="com.liang.pojo.DataDictionary">
+            <id property="id" column="appStatusId" />
+            <id property="valueId" column="appStatusValueId" />
+            <result property="valueName" column="appStatusName" />
+        </association>
+
+        <association property="categoryLevel1" javaType="com.liang.pojo.AppCategory">
+            <id property="id" column="levelOneId" />
+            <result property="categoryName" column="levelOneName" />
+        </association>
+        <association property="categoryLevel2" javaType="com.liang.pojo.AppCategory">
+            <id property="id" column="levelTwoId" />
+            <result property="categoryName" column="levelTwoName" />
+        </association>
+        <association property="categoryLevel3" javaType="com.liang.pojo.AppCategory">
+            <id property="id" column="levelThreeId" />
+            <result property="categoryName" column="levelThreeName" />
+        </association>
+
+<!--        version封装-->
+<!--        <association property="appVersions" javaType="com.liang.pojo.AppVersion">-->
+<!--            <id property="id" column="levelThreeId" />-->
+<!--            <result property="categoryName" column="levelThreeName" />-->
+<!--        </association>-->
+
+        <association property="devUser" javaType="com.liang.pojo.DevUser">
+            <id property="id" column="devUserId" />
+            <result property="devName" column="devUserName" />
+        </association>
+        <association property="createdByUser" javaType="com.liang.pojo.DevUser">
+            <id property="id" column="createdById" />
+            <result property="devName" column="createdByName" />
+        </association>
+        <association property="modifyByUser" javaType="com.liang.pojo.DevUser">
+            <id property="id" column="modifyById" />
+            <result property="devName" column="modifyByName" />
+        </association>
+    </resultMap>
+    <select id="queryAppById" resultMap="queryAppByIdMap">
+        select app_info.id AS appId,
+        app_info.software_name, app_info.APK_name, app_info.support_rom,
+        app_info.interface_language, app_info.software_size, app_info.update_date,
+        app_info.on_sale_date, app_info.off_sale_date,app_info.downloads,
+        app_info.creation_date, app_info.modify_date,
+        app_info.logo_pic_path, app_info.logo_loc_path,app_info.app_info,
+        dd1.id  AS flatFormId,dd1.value_id  AS flatFormValueId,dd1.value_name  AS flatFormName,
+        dd2.id AS appStatusId,dd1.value_id  AS appStatusValueId,dd2.value_name AS appStatusName,
+        ac1.id AS levelOneId,ac2.id AS levelTwoId,ac3.id AS levelThreeId,
+        ac1.category_name AS levelOneName,ac2.category_name AS levelTwoName,ac3.category_name AS levelThreeName,
+        app_version.id AS versionId ,app_version.version_no AS versionNum ,
+        u1.id AS devUserId ,u1.dev_name AS devUserName ,
+        u2.id AS createdById ,u2.dev_name AS createdByName ,
+        u3.id AS modifyById ,u3.dev_name AS modifyByName
+        from app_info
+        LEFT JOIN data_dictionary dd1 ON app_info.flatform_id = dd1.value_id
+        LEFT JOIN data_dictionary dd2 ON app_info.`status`= dd2.value_id
+        LEFT JOIN app_category ac1 ON app_info.category_level1 = ac1.id
+        LEFT JOIN app_category ac2 ON app_info.category_level2 = ac2.id
+        LEFT JOIN app_category ac3 ON app_info.category_level3 = ac3.id
+        LEFT JOIN app_version ON app_info.version_id =  app_version.id
+        LEFT JOIN dev_user u1 ON app_info.dev_id =  u1.id
+        LEFT JOIN dev_user u2 ON app_info.created_by =  u2.id
+        LEFT JOIN dev_user u3 ON app_info.modify_by =  u3.id
+        WHERE dd1.type_code = 'APP_FLATFORM'
+        AND dd2.type_code = 'APP_STATUS'
+         AND app_info.id = #{appId}
+    </select>
+
+<!--    查询  这里继承编辑之前查询的信息-->
+    <resultMap id="queryAppDetailWithHistoryById" extends="queryAppByIdMap" type="com.liang.pojo.AppInfo">
+        <collection property="appVersions" ofType="com.liang.pojo.AppVersion">
+            <id property="id" column="historyVersionId"></id>
+            <result property="versionNo" column="historyVersionNum"/>
+            <result property="apkFilename" column="historyApkFileName"/>
+            <result property="apkLocPath" column="historyApkLogPath"/>
+            <result property="downloadLink" column="historyDownloadLink"/>
+            <result property="versionSize" column="historyVersionSize"/>
+            <result property="versionInfo" column="historyVersionInfo"/>
+        </collection>
+    </resultMap>
+    <select id="queryAppDetailById" resultMap="queryAppDetailWithHistoryById">
+         select app_info.id AS appId,
+        app_info.software_name, app_info.APK_name, app_info.support_rom,
+        app_info.interface_language, app_info.software_size, app_info.update_date,
+        app_info.on_sale_date, app_info.off_sale_date,app_info.downloads,
+        app_info.creation_date, app_info.modify_date,
+        app_info.logo_pic_path, app_info.logo_loc_path,app_info.app_info,
+        dd1.id  AS flatFormId,dd1.value_id  AS flatFormValueId,dd1.value_name  AS flatFormName,
+        dd2.id AS appStatusId,dd1.value_id  AS appStatusValueId,dd2.value_name AS appStatusName,
+        ac1.id AS levelOneId,ac2.id AS levelTwoId,ac3.id AS levelThreeId,
+        ac1.category_name AS levelOneName,ac2.category_name AS levelTwoName,ac3.category_name AS levelThreeName,
+        av1.id AS versionId ,av1.version_no AS versionNum ,
+        u1.id AS devUserId ,u1.dev_name AS devUserName ,
+        u2.id AS createdById ,u2.dev_name AS createdByName ,
+        u3.id AS modifyById ,u3.dev_name AS modifyByName ,
+        av2.id AS historyVersionId , av2.version_no AS historyVersionNum , av2.apk_filename AS historyApkFileName ,
+        av2.apk_loc_path AS historyApkLogPath , av2.download_link AS historyDownloadLink , av2.version_size AS historyVersionSize ,
+        av2.version_info AS historyVersionInfo
+        from app_info
+        LEFT JOIN data_dictionary dd1 ON app_info.flatform_id = dd1.value_id
+        LEFT JOIN data_dictionary dd2 ON app_info.`status`= dd2.value_id
+        LEFT JOIN app_category ac1 ON app_info.category_level1 = ac1.id
+        LEFT JOIN app_category ac2 ON app_info.category_level2 = ac2.id
+        LEFT JOIN app_category ac3 ON app_info.category_level3 = ac3.id
+        LEFT JOIN app_version av1 ON app_info.version_id =  av1.id
+        LEFT JOIN dev_user u1 ON app_info.dev_id =  u1.id
+        LEFT JOIN dev_user u2 ON app_info.created_by =  u2.id
+        LEFT JOIN dev_user u3 ON app_info.modify_by =  u3.id
+        LEFT JOIN app_version av2 ON app_info.id =  av2.app_id
+        WHERE dd1.type_code = 'APP_FLATFORM'
+        AND dd2.type_code = 'APP_STATUS'
+        AND app_info.id = #{appId}
+    </select>
+
+<!--    更新-->
+    <update id="updateAppById">
+        UPDATE app_info
+        <set>
+            <if test="softwareName != null and softwareName != ''">
+                software_name = #{softwareName},
+            </if>
+            <if test="apkName != null and apkName != ''">
+                APK_name = #{apkName},
+            </if>
+            <if test="supportRom != null and supportRom != ''">
+                support_rom = #{supportRom},
+            </if>
+            <if test="interfaceLanguage != null and interfaceLanguage != ''">
+                interface_language = #{interfaceLanguage},
+            </if>
+            <if test="softwareSize != null">
+                software_size = #{softwareSize},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+            <if test="devUser != null and devUser.id != null">
+                dev_id = #{devUser.id},
+            </if>
+            <if test="appInfo != null and appInfo != ''">
+                app_info = #{appInfo},
+            </if>
+            <if test="appStatus != null and appStatus.valueId != null">
+                status = #{appStatus.valueId},
+            </if>
+            <if test="onSaleDate != null">
+                on_sale_date = #{onSaleDate},
+            </if>
+            <if test="offSaleDate != null">
+                off_sale_date = #{offSaleDate},
+            </if>
+            <if test="flatForm != null and flatForm.valueId != null">
+                flatform_id = #{flatForm.valueId},
+            </if>
+            <if test="categoryLevel1 != null and categoryLevel1.id != null">
+                category_level1 = #{categoryLevel1.id},
+            </if>
+            <if test="categoryLevel2 != null and categoryLevel2.id != null">
+                category_level2 = #{categoryLevel2.id},
+            </if>
+            <if test="categoryLevel3 != null and categoryLevel3.id != null">
+                category_level3 = #{categoryLevel3.id},
+            </if>
+            <if test="downloads != null and downloads != null">
+                downloads = #{downloads},
+            </if>
+            <if test="createdByUser != null and createdByUser.id != null">
+                created_by = #{createdByUser.id},
+            </if>
+            <if test="modifyByUser != null and modifyByUser.id != null">
+                modify_by = #{modifyByUser.id},
+            </if>
+            <if test="modifyDate != null">
+                modify_date = #{modifyDate},
+            </if>
+            <if test="logoPicPath != null and logoPicPath != ''">
+                logo_pic_path = #{logoPicPath},
+            </if>
+            <if test="logoLocPath != null and logoLocPath != ''">
+                logo_loc_path = #{logoLocPath},
+            </if>
+            <if test="latestVersion != null and latestVersion.versionNo != null">
+                version_id = #{latestVersion.versionNo},
+            </if>
+        </set>
+        WHERE id = #{id}
+    </update>
 
 
 </mapper>

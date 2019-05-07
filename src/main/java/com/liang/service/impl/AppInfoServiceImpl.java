@@ -85,4 +85,30 @@ public class AppInfoServiceImpl implements AppInfoService {
 
         return false;
     }
+
+    @Override
+    public boolean deleteApp(long appId) {
+        int flag = appInfoMapper.deleteApp(appId);
+        System.out.println("flag"+flag);//删除成功返回改变的行数 这里是1
+
+        return flag == 1;
+    }
+
+    @Override
+    public AppInfo queryAppById(Long appId) {
+        return appInfoMapper.queryAppById(appId);
+    }
+
+    @Override
+    public void updateAppById(AppInfo appInfo) {
+        appInfo.setModifyDate(new Date());
+        appInfo.setUpdateDate(new Date());
+
+        appInfoMapper.updateAppById(appInfo);
+    }
+
+    @Override
+    public AppInfo detailApp(Long appId) {
+        return appInfoMapper.queryAppDetailById(appId);
+    }
 }

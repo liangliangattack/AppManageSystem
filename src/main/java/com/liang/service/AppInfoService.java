@@ -20,4 +20,12 @@ public interface AppInfoService {
     PageInfo<AppInfoDto> query(AppInfoDto appInfoDto);
 
     boolean addApp(AppInfo appInfo, long userId);
+
+    boolean deleteApp(long appId);
+
+    AppInfo queryAppById(Long appId);
+
+    void updateAppById(AppInfo appInfo);
+
+    AppInfo detailApp(Long appId);
 }

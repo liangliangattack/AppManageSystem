@@ -92,4 +92,19 @@ public class DataDictionary {
     public void setModifyDate(Date modifyDate) {
         this.modifyDate = modifyDate;
     }
+
+    @Override
+    public String toString() {
+        return "DataDictionary{" +
+                "id=" + id +
+                ", typeCode='" + typeCode + '\'' +
+                ", typeName='" + typeName + '\'' +
+                ", valueId=" + valueId +
+                ", valueName='" + valueName + '\'' +
+                ", createdBy=" + createdBy +
+                ", creationDate=" + creationDate +
+                ", modifyBy=" + modifyBy +
+                ", modifyDate=" + modifyDate +
+                '}';
+    }
 }

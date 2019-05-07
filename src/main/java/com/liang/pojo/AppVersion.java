@@ -26,7 +26,7 @@ public class AppVersion {
 
     private Date modifyDate;
 
-    private String apklocPath;
+    private String apkLocPath;
 
     private String apkFilename;
 
@@ -120,12 +120,12 @@ public class AppVersion {
         this.modifyDate = modifyDate;
     }
 
-    public String getApklocPath() {
-        return apklocPath;
+    public String getApkLocPath() {
+        return apkLocPath;
     }
 
-    public void setApklocPath(String apklocPath) {
-        this.apklocPath = apklocPath == null ? null : apklocPath.trim();
+    public void setApkLocPath(String apkLocPath) {
+        this.apkLocPath = apkLocPath;
     }
 
     public String getApkFilename() {

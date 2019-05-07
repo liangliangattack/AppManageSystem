@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>添加App</title>
     <link rel="stylesheet" type="text/css" href="${ctx}/static/layui/css/layui.css">
     <link rel="stylesheet" type="text/css" href="${ctx}/static/css/main.css">
 </head>
@@ -117,10 +117,12 @@
                         </select>
                     </div>
                 </div>
-                <div class="layui-inline my_form_item">
+                <div class="layui-form-item layui-form-text my_form_item">
                     <label class="layui-form-label">软件简介</label>
-                    <div class="layui-input-inline">
-                        <input type="tel" name="appInfo" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                    <div class="layui-input-block">
+                            <textarea type="tel" name="appInfo" class="layui-textarea">
+                                ${appInfo.appInfo}
+                            </textarea>
                     </div>
                 </div>
             </div>
